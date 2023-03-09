@@ -204,12 +204,15 @@ class EmbedService
             $resource = $this->resourceManager->importResource($assetOriginal);
             $tags = new ArrayCollection([$this->nodeService->findOrCreateBetterEmbedTag($record->getItemType(), $this->assetCollections)]);
 
+            $client = new Client();
+            $mimeType = $client->head($asset)->getHeader('Content-Type')[0];
+
             /** @var Image $image */
             $image = $this->assetRepository->findOneByResourceSha1($resource->getSha1());
             if ($image === null) {
                 $image = new Image($resource);
                 $image->getResource()->setFilename(md5($record->getUrl()) . '.' . $extension);
-                $image->getResource()->setMediaType('image/' . $extension);
+                $image->getResource()->setMediaType($mimeType);
                 $image->setAssetCollections($this->assetCollections);
                 $image->setTags($tags);
                 $this->assetRepository->add($image);
