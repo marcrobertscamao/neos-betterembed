@@ -233,7 +233,9 @@ class EmbedService
         $nodeTemplate->setProperty('thumbnailUrl', $record->getThumbnailUrl());
         $nodeTemplate->setProperty('thumbnailContentType', $record->getThumbnailContentType());
         $nodeTemplate->setProperty('thumbnailContent', $record->getThumbnailContent());
-        $nodeTemplate->setProperty('thumbnail', $image);
+        if (isset($image)) {
+            $nodeTemplate->setProperty('thumbnail', $image);
+        }
         $nodeTemplate->setProperty('embedHtml', $record->getEmbedHtml());
         $nodeTemplate->setProperty('authorName', $record->getAuthorName());
         $nodeTemplate->setProperty('authorUrl', $record->getAuthorUrl());
